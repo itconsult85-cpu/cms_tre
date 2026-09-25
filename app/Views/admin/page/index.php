@@ -24,6 +24,7 @@
                             <th>Judul Halaman</th>
                             <th>URL (Slug)</th>
                             <th>Status</th>
+                            <th>Menu</th>
                             <th class="text-center" style="width: 150px;">Aksi</th>
                         </tr>
                     </thead>
@@ -39,6 +40,13 @@
                                         <?= ucfirst($p['status']) ?>
                                     </span>
                                 </td>
+                                <td class="align-middle">
+                                    <?php if (!empty($p['show_in_menu'])): ?>
+                                        <span class="badge text-bg-primary">Ditampilkan</span>
+                                    <?php else: ?>
+                                        <span class="badge text-bg-light text-dark">Disembunyikan</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td class="text-center align-middle">
                                     <a href="<?= base_url('admin/page/edit/' . $p['id']) ?>" class="btn btn-warning btn-sm" title="Edit"><i class="bi bi-pencil-square"></i></a>
                                     <form action="<?= base_url('admin/page/delete/' . $p['id']) ?>" method="post" class="d-inline" onsubmit="return confirm('Hapus halaman ini beserta gambarnya?');">
@@ -50,7 +58,7 @@
                         <?php endforeach; ?>
                         <?php if (empty($pages)): ?>
                             <tr>
-                                <td colspan="5" class="text-center py-3">Belum ada halaman dibuat.</td>
+                                <td colspan="6" class="text-center py-3">Belum ada halaman dibuat.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

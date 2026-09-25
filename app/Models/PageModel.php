@@ -11,5 +11,5 @@ class PageModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useTimestamps    = true; // Aktifkan created_at & updated_at
-    protected $allowedFields    = ['title', 'slug', 'content', 'featured_image', 'meta_title', 'meta_description', 'status'];
+    protected $allowedFields    = ['title', 'slug', 'content', 'featured_image', 'meta_title', 'meta_description', 'status', 'show_in_menu'];
 }

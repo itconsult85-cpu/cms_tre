@@ -33,6 +33,7 @@ if (!function_exists('get_published_pages')) {
         if ($pages === null) {
             $pages = (new \App\Models\PageModel())
                 ->where('status', 'published')
+                ->where('show_in_menu', 1)
                 ->whereNotIn('slug', ['profile-perusahaan', 'visi-misi'])
                 ->orderBy('title', 'ASC')
                 ->findAll();
