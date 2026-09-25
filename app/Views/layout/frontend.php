@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title><?= esc($title) ?></title>
-    <meta name="description" content="<?= get_setting('meta_description') ?? '' ?>">
+    <meta name="description" content="<?= esc($meta_description ?? get_setting('meta_description') ?? '') ?>">
 
     <link href="<?= base_url('frontend/assets/img/tre.png') ?>" rel="icon">
 
@@ -59,6 +59,15 @@
                     <li>
                         <a href="<?= base_url('contact') ?>" class="<?= (url_is('contact*')) ? 'active' : '' ?>">Kontak</a>
                     </li>
+
+                    <?php foreach (get_published_pages() as $menuPage): ?>
+                        <li>
+                            <a href="<?= base_url('page/' . rawurlencode($menuPage['slug'])) ?>"
+                                class="<?= url_is('page/' . $menuPage['slug']) ? 'active' : '' ?>">
+                                <?= esc($menuPage['title']) ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
