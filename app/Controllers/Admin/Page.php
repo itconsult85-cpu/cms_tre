@@ -39,14 +39,18 @@ class Page extends BaseController
             return redirect()->back()->withInput()->with('error', 'Judul halaman sudah ada, silakan gunakan judul lain.');
         }
 
-        // Membuat Slug URL otomatis dari judul (misal: "Tentang Kami" -> "tentang-kami")
-        $slug = url_title($this->request->getPost('title'), '-', true);
+        // Membuat slug URL otomatis dan tetap unik jika judulnya sama.
+        $slug = $this->uniqueSlug($this->request->getPost('title'));
         $imagePath = null;
 
         $file = $this->request->getFile('featured_image');
         if ($file && $file->isValid() && !$file->hasMoved()) {
+            $uploadPath = FCPATH . 'uploads/pages';
+            if (! is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
             $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/pages', $newName);
+            $file->move($uploadPath, $newName);
             $imagePath = 'uploads/pages/' . $newName;
         }
 
@@ -83,7 +87,7 @@ class Page extends BaseController
         }
 
         $pageLama = $this->pageModel->find($id);
-        $slug = url_title($this->request->getPost('title'), '-', true);
+        $slug = $this->uniqueSlug($this->request->getPost('title'), (int) $id);
         $imagePath = $pageLama['featured_image'];
 
         $file = $this->request->getFile('featured_image');
@@ -92,8 +96,12 @@ class Page extends BaseController
             if (!empty($pageLama['featured_image']) && file_exists(FCPATH . $pageLama['featured_image'])) {
                 unlink(FCPATH . $pageLama['featured_image']);
             }
+            $uploadPath = FCPATH . 'uploads/pages';
+            if (! is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
             $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/pages', $newName);
+            $file->move($uploadPath, $newName);
             $imagePath = 'uploads/pages/' . $newName;
         }
 
@@ -119,5 +127,25 @@ class Page extends BaseController
 
         $this->pageModel->delete($id);
         return redirect()->to('/admin/page')->with('success', 'Halaman berhasil dihapus.');
+    }
+
+    private function uniqueSlug(string $title, ?int $ignoreId = null): string
+    {
+        $baseSlug = url_title($title, '-', true) ?: 'halaman';
+        $slug = $baseSlug;
+        $suffix = 2;
+
+        while (true) {
+            $query = $this->pageModel->where('slug', $slug);
+            if ($ignoreId !== null) {
+                $query->where('id !=', $ignoreId);
+            }
+
+            if ($query->first() === null) {
+                return $slug;
+            }
+
+            $slug = $baseSlug . '-' . $suffix++;
+        }
     }
 }

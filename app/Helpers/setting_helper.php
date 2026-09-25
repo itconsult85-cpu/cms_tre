@@ -19,3 +19,25 @@ if (!function_exists('get_setting')) {
         return $settings[$key] ?? null; // Kembalikan nilai, atau null jika key tidak ditemukan
     }
 }
+
+if (!function_exists('get_published_pages')) {
+    /**
+     * Return published CMS pages that can be shown in the public navigation.
+     * Legacy pages used by the About page are intentionally excluded to avoid
+     * duplicate navigation entries.
+     */
+    function get_published_pages(): array
+    {
+        static $pages = null;
+
+        if ($pages === null) {
+            $pages = (new \App\Models\PageModel())
+                ->where('status', 'published')
+                ->whereNotIn('slug', ['profile-perusahaan', 'visi-misi'])
+                ->orderBy('title', 'ASC')
+                ->findAll();
+        }
+
+        return $pages;
+    }
+}

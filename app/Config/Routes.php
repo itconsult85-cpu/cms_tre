@@ -13,6 +13,7 @@ $routes->get('/contact', 'Home::contact');
 $routes->post('/contact/send', 'Home::send_message');
 $routes->get('blog', 'Home::blog');
 $routes->get('blog/(:segment)', 'Home::blog_detail/$1');
+$routes->get('page/(:segment)', 'Home::page/$1');
 
 $routes->post('kontak/kirim', 'Home::simpanPesan');
 

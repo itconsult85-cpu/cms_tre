@@ -185,6 +185,29 @@ class Home extends BaseController
         return view('frontend/blog_detail', $data);
     }
 
+    /**
+     * Render any published page created from the CMS page manager.
+     */
+    public function page($slug)
+    {
+        $pageModel = new \App\Models\PageModel();
+        $page = $pageModel
+            ->where('slug', $slug)
+            ->where('status', 'published')
+            ->first();
+
+        if (!$page) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        return view('frontend/page', [
+            'title'            => ($page['meta_title'] ?: $page['title']) . ' - ' . (get_setting('nama_perusahaan') ?? 'TRE'),
+            'page'             => $page,
+            'meta_description' => $page['meta_description'] ?: get_setting('meta_description'),
+            'logo'             => get_setting('logo_kantor') ?? 'PT. TRISENTOSA RAYA ESOLUSI',
+        ]);
+    }
+
     public function contact()
     {
         $data = [
