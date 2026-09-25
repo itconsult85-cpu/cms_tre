@@ -61,7 +61,8 @@ class Page extends BaseController
             'featured_image'   => $imagePath,
             'meta_title'       => $this->request->getPost('meta_title'),
             'meta_description' => $this->request->getPost('meta_description'),
-            'status'           => $this->request->getPost('status')
+            'status'           => $this->request->getPost('status'),
+            'show_in_menu'     => $this->request->getPost('show_in_menu') ? 1 : 0,
         ]);
 
         return redirect()->to('/admin/page')->with('success', 'Halaman baru berhasil dibuat.');
@@ -112,7 +113,8 @@ class Page extends BaseController
             'featured_image'   => $imagePath,
             'meta_title'       => $this->request->getPost('meta_title'),
             'meta_description' => $this->request->getPost('meta_description'),
-            'status'           => $this->request->getPost('status')
+            'status'           => $this->request->getPost('status'),
+            'show_in_menu'     => $this->request->getPost('show_in_menu') ? 1 : 0,
         ]);
 
         return redirect()->to('/admin/page')->with('success', 'Halaman berhasil diperbarui.');

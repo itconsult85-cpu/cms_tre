@@ -38,6 +38,10 @@
                                     <option value="draft">Draft (Simpan Sementara)</option>
                                 </select>
                             </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" name="show_in_menu" value="1" id="show_in_menu" checked>
+                                <label class="form-check-label" for="show_in_menu">Tampilkan di menu navigasi</label>
+                            </div>
                             <div class="mb-3">
                                 <label>Gambar Utama (Featured Image)</label>
                                 <input type="file" class="form-control mb-2" name="featured_image" accept="image/*" onchange="previewImage(this)">

@@ -47,6 +47,10 @@
                                     <option value="draft" <?= $page['status'] === 'draft' ? 'selected' : '' ?>>Draft (Simpan Sementara)</option>
                                 </select>
                             </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" name="show_in_menu" value="1" id="show_in_menu" <?= old('show_in_menu', $page['show_in_menu'] ?? 1) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="show_in_menu">Tampilkan di menu navigasi</label>
+                            </div>
 
                             <div class="mb-3">
                                 <label>Gambar Utama (Featured Image)</label>
